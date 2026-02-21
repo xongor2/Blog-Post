@@ -1,0 +1,5 @@
+{
+  "name": "React Blog App",
+  "description": "A modern blog application with authentication, protected routes, and post management using React and Context API.",
+  "requestFramePermissions": []
+}
