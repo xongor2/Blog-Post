@@ -2,11 +2,13 @@ import { createContext, useContext, useState, ReactNode } from 'react';
 
 interface User {
   username: string;
+  email: string;
 }
 
 interface AuthContextType {
   user: User | null;
-  login: (username: string) => void;
+  login: (email: string, password: string) => void;
+  signup: (username: string, email: string, password: string) => void;
   logout: () => void;
   isAuthenticated: boolean;
 }
@@ -19,8 +21,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return saved ? JSON.parse(saved) : null;
   });
 
-  const login = (username: string) => {
-    const newUser = { username };
+  const login = (email: string, _password: string) => {
+    // Mock login
+    const username = email.split('@')[0];
+    const newUser = { username, email };
+    setUser(newUser);
+    localStorage.setItem('blog_user', JSON.stringify(newUser));
+  };
+
+  const signup = (username: string, email: string, _password: string) => {
+    // Mock signup
+    const newUser = { username, email };
     setUser(newUser);
     localStorage.setItem('blog_user', JSON.stringify(newUser));
   };
@@ -31,7 +42,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, isAuthenticated: !!user }}>
+    <AuthContext.Provider value={{ user, login, signup, logout, isAuthenticated: !!user }}>
       {children}
     </AuthContext.Provider>
   );
